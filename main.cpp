@@ -1,7 +1,8 @@
 #include <iostream>
+#include "lz77.h"
 #include "lz78.h"
 
 int main() {
-    std::cout << LZ78::decode(LZ78::encode("test_string")) << std::endl;
+    std::cout << LZ77::decode(LZ77::encode("abacabacabadaca", 5)) << std::endl;
     return 0;
 }

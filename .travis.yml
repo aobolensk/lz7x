@@ -1,31 +1,9 @@
 language: cpp
 os: linux
 dist: xenial
-matrix:
-  include:
-    - compiler: gcc
-      addons:
-        apt:
-          sources:
-            - ubuntu-toolchain-r-test
-          packages:
-            - g++-8
-      install:
-        - export CC="gcc-8"
-        - export CXX="g++-8"
-      script:
-        - make -j
-        - ./main
-    - compiler: clang
-      addons:
-        apt:
-          sources:
-            - ubuntu-toolchain-r-test
-          packages:
-            - clang
-      install:
-        - export CC="clang"
-        - export CXX="clang++"
-      script:
-        - make -j
-        - ./main
+compiler:
+  - gcc
+  - clang
+script:
+  - make -j
+  - ./main

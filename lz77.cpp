@@ -1,6 +1,5 @@
 #include <iostream>
 #include <cmath>
-#include <cstring>
 #include <algorithm>
 #include "lz77.h"
 
@@ -11,8 +10,6 @@ std::vector <LZ77::Node> LZ77::encode(const std::string &s, size_t buf_size) {
         std::pair <int, int> result = {0, 0};
         std::string buffer;
         buffer.resize(buf_size);
-        for (int i = 0; i < buf_size; ++i)
-            buffer[i] = 0;
         int j = buf_size - 1;
         for (int i = buf_pos - 1; i >= 0; --i) {
             buffer[j--] = s[i];
@@ -20,19 +17,12 @@ std::vector <LZ77::Node> LZ77::encode(const std::string &s, size_t buf_size) {
                 break;
         }
         int cnt = buf_size - 1;
-        while (buffer[0] == 0) {
-            for (int i = 0; i < buf_size - 1; ++i) {
-                buffer[i] = buffer[i + 1];
-            }
-            buffer[cnt--] = 0;
-            if (cnt == 0)
-                break;
-        }
-        for (int i = 0; i < buf_size; ++i)
-            std::cout << (buffer[i] ? buffer[i] : '_');
-        std::cout << std::endl;
-        int buf_len = strlen(&buffer[0]);
-        for (int len = 1; len + buf_pos <= (int)s.size(); ++len) {
+        buffer.erase(buffer.begin(), std::find_if(buffer.begin(), buffer.end(), [](char ch) {
+            return ch;
+        }));
+        int buf_len = buffer.size();
+        buffer.resize(buf_size);
+        for (int len = 1; len + buf_pos <= s.size(); ++len) {
             bool flag = false;
             for (int j = 0; j < buf_len; ++j) {
                 int i = 0;
